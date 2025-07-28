@@ -13,7 +13,6 @@ public class Order {
     private final List<Item> items;
     private final Address deliveryAddress;
 
-    // Construtor privado para uso do Builder
     private Order(OrderBuilder builder) {
         this.id = builder.id;
         this.items = Collections.unmodifiableList(builder.items);

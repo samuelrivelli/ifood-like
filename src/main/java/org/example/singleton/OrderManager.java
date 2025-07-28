@@ -1,7 +1,5 @@
 package org.example.singleton;
 
-
-
 import org.example.order.Order;
 
 import java.util.HashMap;
