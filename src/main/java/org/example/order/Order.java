@@ -1,6 +1,7 @@
 package org.example.order;
 
 import org.example.observer.OrderObserver;
+import org.example.strategy.DeliveryStrategy;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,6 +13,7 @@ public class Order {
     private final String id;
     private final List<Item> items;
     private final Address deliveryAddress;
+    private DeliveryStrategy deliveryStrategy;
 
     private Order(OrderBuilder builder) {
         this.id = builder.id;
@@ -58,6 +60,17 @@ public class Order {
         for (OrderObserver observer : observers) {
             observer.update(this);
         }
+    }
+
+    public void setDeliveryStrategy(DeliveryStrategy strategy) {
+        this.deliveryStrategy = strategy;
+    }
+
+    public double calculateDeliveryCost() {
+        if (deliveryStrategy == null) {
+            throw new IllegalStateException("Tipo de entrega nao atribuido.");
+        }
+        return deliveryStrategy.calculateDeliveryCost(deliveryAddress);
     }
 
     public static class OrderBuilder {
