@@ -1,23 +1,26 @@
 package org.example.order;
 
+import org.example.decorator.OrderComponent;
 import org.example.observer.OrderObserver;
+import org.example.protoype.Prototype;
+import org.example.state.OrderState;
+import org.example.state.ReceivedState;
 import org.example.strategy.DeliveryStrategy;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class Order {
+public class Order implements OrderComponent, Prototype<Order>, Cloneable {
     private OrderState state;
-    private final List<OrderObserver> observers = new ArrayList<>();
-    private final String id;
-    private final List<Item> items;
-    private final Address deliveryAddress;
+    private List<OrderObserver> observers = new ArrayList<>();
+    private String id;
+    private List<Item> items;
+    private Address deliveryAddress;
     private DeliveryStrategy deliveryStrategy;
 
     private Order(OrderBuilder builder) {
         this.id = builder.id;
-        this.items = Collections.unmodifiableList(builder.items);
+        this.items = builder.items;
         this.deliveryAddress = builder.deliveryAddress;
         this.state = new ReceivedState();
     }
@@ -66,12 +69,33 @@ public class Order {
         this.deliveryStrategy = strategy;
     }
 
+    @Override
     public double calculateDeliveryCost() {
         if (deliveryStrategy == null) {
             throw new IllegalStateException("Tipo de entrega nao atribuido.");
         }
         return deliveryStrategy.calculateDeliveryCost(deliveryAddress);
     }
+
+    public String getDescription() {
+        int totalQuantity = items.stream()
+                .mapToInt(Item::getQuantity)
+                .sum();
+        return "Pedido " + id + " com " + totalQuantity + " itens";
+    }
+
+    @Override
+    public Order clone() {
+        try {
+            Order cloned = (Order) super.clone();
+            cloned.items = new ArrayList<>(this.items);
+            cloned.deliveryAddress = this.deliveryAddress != null ? this.deliveryAddress.clone() : null;
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+
 
     public static class OrderBuilder {
         private final String id;

@@ -1,4 +1,6 @@
-package org.example.order;
+package org.example.state;
+
+import org.example.order.Order;
 
 public class ReceivedState implements OrderState {
     @Override

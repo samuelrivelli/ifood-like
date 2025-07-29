@@ -1,5 +1,7 @@
-package org.example.order;
+package org.example.state;
 
+
+import org.example.order.Order;
 
 public class ShippedState implements OrderState {
     @Override

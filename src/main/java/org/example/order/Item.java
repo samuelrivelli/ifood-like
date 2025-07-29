@@ -1,9 +1,9 @@
 package org.example.order;
 
 public class Item {
-    private final String name;
-    private final int quantity;
-    private final double price;
+    private String name;
+    private int quantity;
+    private double price;
 
     public Item(String name, int quantity, double price) {
         this.name = name;

@@ -4,7 +4,7 @@ import org.example.observer.OrderObserver;
 import org.example.order.Address;
 import org.example.order.Item;
 import org.example.order.Order;
-import org.example.order.PreparingState;
+import org.example.state.PreparingState;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;

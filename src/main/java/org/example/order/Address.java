@@ -1,9 +1,12 @@
 package org.example.order;
 
-public class Address {
-    private final String street;
-    private final String city;
-    private final String zipCode;
+import lombok.Setter;
+
+public class Address implements Cloneable {
+    @Setter
+    private String street;
+    private String city;
+    private String zipCode;
 
     public Address(String street, String city, String zipCode) {
         this.street = street;
@@ -20,5 +23,9 @@ public class Address {
     public String getZipCode() {
         return zipCode;
     }
-}
 
+    @Override
+    public Address clone() {
+        return new Address(this.street, this.city, this.zipCode);
+    }
+}
