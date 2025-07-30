@@ -1,6 +1,9 @@
 package org.example.order;
 
 import org.example.decorator.OrderComponent;
+import org.example.iterator.ItemIterator;
+import org.example.iterator.OrderItemIterator;
+import org.example.memento.OrderMemento;
 import org.example.observer.OrderObserver;
 import org.example.protoype.Prototype;
 import org.example.state.OrderState;
@@ -65,8 +68,25 @@ public class Order implements OrderComponent, Prototype<Order>, Cloneable {
         }
     }
 
+    public void addItem(Item item) {
+        items.add(item);
+    }
+
+    public ItemIterator iterator() {
+        return new OrderItemIterator(items);
+    }
+
     public void setDeliveryStrategy(DeliveryStrategy strategy) {
         this.deliveryStrategy = strategy;
+    }
+
+    public OrderMemento saveToMemento() {
+        return new OrderMemento(this.items);
+    }
+
+    public void restoreFromMemento(OrderMemento memento) {
+        this.items.clear();
+        this.items.addAll(memento.getItems());
     }
 
     @Override
