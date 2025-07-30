@@ -1,4 +1,3 @@
-package org.example.test;
 
 import org.example.observer.OrderObserver;
 import org.example.order.Address;
